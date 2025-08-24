@@ -1,0 +1,36 @@
+හිතන්නකෝ ඔයා company එකක HR department එකේ වැඩ කරනවා කියලා. ඔයාගේ company එකට මාස 6කට intern කෙනෙක් එනවා. ඔයා තමයි එයාට office එකට ඇතුල් වෙන්න temporary ID card (access card) එකක් හදලා දෙන්නේ.
+
+මේ lab එකේදී ඔයා කරේ ඒ වගේ වැඩක්.
+1. අදාළ Department එකට ගිය එක (Connecting to the right server)
+
+ඉස්සෙල්ලම ඔයා හිටියේ company එකේ main reception එකේ (jumphost). Intern ට ID card එක හදන්න පුළුවන් IT department එක තියෙන්නේ 3 වෙනි තට්ටුවේ (App Server 3). ඒ නිසා ඔයා 3 වෙනි තට්ටුවට ගියා.
+
+    කරපු දේ: ssh banner@stapp03 command එක ගැහුවා.
+
+    මතක තියාගන්න විදිය: 3 වෙනි තට්ටුවේ IT department එකේ වැඩ කරන banner ගෙන් අවසර අරගෙන (password) ඒ තට්ටුවට ගියා.
+
+2. කල් ඉකුත් වෙන ID Card එකක් හැදුව එක (Creating a User with an Expiry Date)
+
+දැන් ඔයා IT department එකේ. Intern ගේ නම javed. ඔයාට javed ට ID card එකක් හදන්න ඕන. හැබැයි මේක permanent ID card එකක් නෙවෙයි. එයාගේ internship එක ඉවර වෙන දවසට (2023-12-07) මේ ID card එක automatically expire (අක්‍රිය) වෙන්න ඕන.
+
+    කරපු දේ: sudo useradd javed -e 2023-12-07 command එක ගැහුවා.
+
+    මතක තියාගන්න විදිය:
+
+        useradd javed: javed ට අලුත් ID card එකක් (user account) හැදුවා.
+
+        -e 2023-12-07: මේක තමයි මේ lab එකේ වැදගත්ම කොටස. -e කියන්නේ --expiredate. මේක හරියට ID card එකේ chip එකට program කරනවා වගේ "මේ card එක 2023-12-07 දවසෙන් පස්සේ වැඩ කරන්නේ නෑ" කියලා.
+
+3. ID Card එකේ Details පරීක්ෂා කරපු එක (Verifying the User Details)
+
+ID card එක හැදුවට පස්සේ, ඔයාට double-check කරන්න ඕන expiry date එක හරියටම program වුනාද කියලා.
+
+    කරපු දේ: sudo chage -l javed command එක ගැහුවා.
+
+    මතක තියාගන්න විදිය: chage -l (l for list) කියන්නේ "මට මේ ID card එකේ (javed) තියෙන හැම detail එකක්ම පෙන්නන්න" කියලා කියනවා වගේ. ඒක බැලුවම ඔයාට "Account expires: Dec 07, 2023" කියලා පේනවා. එතකොට වැඩේ 100% හරි.
+
+සාරාංශය (Summary එක)
+
+"අපි අදාළ server එකට ගිහින් (ssh), admin බලය අරගෙන (sudo), නිශ්චිත දවසකදී ස්වයංක්‍රීයව අක්‍රිය වෙන විදියේ user account එකක් හැදුවා (useradd with -e). මේක හරියටම වුනාද කියලා chage command එකෙන් තහවුරු කරගත්තා."
+
+මේ concept එක real-world එකේදී තාවකාලික සේවකයින් (contractors/interns) සහ සීමිත කාලීන project වලදී access control කරන්න අනිවාර්යයෙන්ම පාවිච්චි වෙනවා. මේක ආරක්ෂාව සහ හොඳ කළමනාකරණයක් (good governance) පවත්වාගෙන යන්න ගොඩක් වැදගත්.

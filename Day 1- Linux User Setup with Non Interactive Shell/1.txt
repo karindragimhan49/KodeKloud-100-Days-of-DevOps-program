@@ -1,0 +1,34 @@
+හිතන්නකෝ ඔයා ලොකු office building එකක Security Manager කියලා. ඔයාගේ building එක තමයි Linux Server එක.
+
+මේ lab එකේදී ඔයා ප්‍රධාන වැඩ 3ක් කළා:
+1. හරි තැනට ගිය එක (Connecting to the right server)
+
+ඔයා ඉස්සෙල්ලම හිටියේ building එකේ reception එකේ (jumphost). ඔයාට වැඩේ කරන්න තිබ්බේ 3 වෙනි තට්ටුවේ (App Server 3). ඒ නිසා ඔයාට 3 වෙනි තට්ටුවට යන්න වුනා.
+
+    කරපු දේ: ssh banner@stapp03 command එක ගැහුවා.
+
+    මතක තියාගන්න විදිය: මේක හරියට 3 වෙනි තට්ටුවේ security desk එකේ ඉන්න banner කියන කෙනාට කතා කරලා, එයාගේ key card එක (password) පාවිච්චි කරලා 3 වෙනි තට්ටුවට ඇතුල් වුනා වගේ වැඩක්.
+
+2. "විශේෂ" Access Card එකක් හැදුව එක (Creating a Non-interactive User)
+
+දැන් ඔයා 3 වෙනි තට්ටුවේ. ඔයාට ඕන වුනා 3 වෙනි තට්ටුවේ තියෙන CCTV camera system එකට (backup software එකට) විතරක් වැඩ කරන්න පුළුවන් access card එකක් හදන්න. මේ card එකෙන් මනුස්සයෙක්ට දොරවල් ඇරගෙන ඇතුලට එන්න බෑ, හැබැයි camera system එකට power දෙන්න විතරක් පුළුවන්.
+
+    කරපු දේ: sudo useradd anita -s /sbin/nologin command එක ගැහුවා.
+
+    මතක තියාගන්න විදිය:
+
+        useradd anita: anita කියලා අලුත් access card එකක් හැදුවා.
+
+        -s /sbin/nologin: මේක තමයි වැදගත්ම කොටස. මේකෙන් කිව්වා "මේ card එකෙන් building එකේ දොරවල් අරින්න බෑ" කියලා. ඒ කියන්නේ, මේ user account එකෙන් server එකට login වෙන්න බෑ. මේ user account එක තියෙන්නේ system එක ඇතුලේ run වෙන software එකකට විතරයි. Real-world එකේ මේවට කියන්නේ "Service Accounts" කියලා. මේක ආරක්ෂාවට ගොඩක් වැදගත්.
+
+3. Manager ගේ බලය පාවිච්චි කරපු එක (Using sudo)
+
+ඔයා 3 වෙනි තට්ටුවේ security guard (banner) විදියට ගියත්, අලුත් access card එකක් හදන්න ඔයාට Manager ගේ අවසරය (root or admin power) ඕන.
+
+    කරපු දේ: useradd command එකට ඉස්සරහින් sudo කියලා දැම්මා.
+
+    මතක තියාගන්න විදිය: sudo කියන්නේ "මම මේ වැඩේ කරන්නේ Manager ගේ බලය අරගෙන" කියලා කියනවා වගේ. Linux වල admin-level වැඩ කරන්න sudo අනිවාර්යයෙන්ම ඕන.
+
+සාරාංශය (Summary එක)
+
+"අපි දුර තියෙන server එකකට ගිහින් (ssh), admin බලය අරගෙන (sudo), මනුස්සයෙක්ට login වෙන්න බැරි, software එකකට විතරක් පාවිච්චි කරන්න පුළුවන් user කෙනෙක්ව (useradd with -s /sbin/nologin) හැදුවා."
