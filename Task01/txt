@@ -1,0 +1,33 @@
+thor@jumphost ~$ ssh stapp02 
+The authenticity of host 'stapp02 (172.16.238.11)' can't be established.
+ED25519 key fingerprint is SHA256:SYJd9m9cRq22CbPdkbi7MLNsO8tYs6VusWfJUVoW0+Y.
+This key is not known by any other names
+Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
+Warning: Permanently added 'stapp02' (ED25519) to the list of known hosts.
+thor@stapp02's password: 
+
+wdPermission denied, please try again.
+thor@stapp02's password: 
+
+Permission denied, please try again.
+thor@stapp02's password: 
+
+thor@jumphost ~$ ssh stapp02 
+thor@stapp02's password: 
+Permission denied, please try again.
+thor@stapp02's password: 
+
+thor@jumphost ~$ ssh steve@stapp02
+steve@stapp02's password: 
+[steve@stapp02 ~]$ sudo useradd javed -s /sbin/nologin
+
+We trust you have received the usual lecture from the local System
+Administrator. It usually boils down to these three things:
+
+    #1) Respect the privacy of others.
+    #2) Think before you type.
+    #3) With great power comes great responsibility.
+
+[sudo] password for steve: 
+[steve@stapp02 ~]$ grep javed /etc/passwd
+javed:x:1002:1002::/
