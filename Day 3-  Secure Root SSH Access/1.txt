@@ -1,0 +1,92 @@
+1. Task එක තේරුම් ගමු (මොකක්ද කරන්න තියෙන්නේ?)
+
+    ප්‍රශ්නය: xFusionCorp එකේ security team එක audit එකකින් පස්සේ තීරණය කරලා තියෙනවා, root user ට කෙලින්ම server එකට SSH වලින් log වෙන්න තියෙන හැකියාව නවත්වන්න ඕන කියලා.
+
+    කරන්න ඕන දේ: Direct root SSH login එක disable කරන්න.
+
+    කොහෙද කරන්න ඕන?: Stratos Datacenter එකේ තියෙන හැම app server එකකම (on all app servers).
+
+2. Real-World එකේ මේකේ තේරුම (ඇයි මේක මෙච්චර වැදගත්?)
+
+හිතන්නකෝ ඔයාගේ server එක කියන්නේ බැංකුවක් කියලා.
+
+    root user කියන්නේ මොකක්ද?: root user කියන්නේ මුළු බැංකුවේම තියෙන "මහා යතුර" (Master Key) වගේ. මේ යතුරෙන් ඕනම සේප්පුවක් අරින්න, security camera off කරන්න, ඕනම දෙයක් කරන්න පුළුවන්. ඒක තමයි server එකේ තියෙන බලවත්ම account එක.
+
+    Direct Root Login වල තියෙන අවධානම:
+
+        සොරකම් කිරීමේ ලොකු ඉඩක්: හොරෙක්ට ඔයාගේ බැංකුවට ඇතුල් වෙන්න ඕන නම්, එයා target කරන්නේ අනිවාර්යයෙන්ම මේ "මහා යතුර". ඒ වගේම, හැකර් කෙනෙක් server එකකට ගහන්න try කරද්දී, එයා මුලින්ම try කරන්නේ root user ගේ password එක හොයාගන්න. මොකද ඒක හම්බවුනොත් මුළු server එකම එයාගේ අතේ.
+
+        වගකීමක් නැති වීම (No Accountability): හැමෝම "මහා යතුර" පාවිච්චි කරලා වැඩ කරොත්, කවුද සේප්පුව ඇරියේ, කවුද සල්ලි ගත්තේ කියලා හොයාගන්න බෑ. ඒ වගේ, හැමෝම root විදියට log වුනොත්, server එකේ වැරදි දෙයක් වුනාම ඒක කරේ කවුද කියලා හොයාගන්න බෑ.
+
+    හොඳම ක්‍රමය (The Best Practice):
+
+        "මහා යතුර" (root account) manager ගේ සේප්පුවේ දාලා ලොක් කරනවා. කවුරුත් ඒක කෙලින්ම පාවිච්චි කරන්නේ නෑ. (මේ lab එකේ අපි කරන්නේ මේක - Disabling direct root login).
+
+        සෑම security guard කෙනෙක්ටම (tony, steve වගේ normal users) එයාලගේම කියලා වෙනම යතුරක් දෙනවා. ඒ යතුරෙන් එයාලට බැංකුවේ lobby එකට විතරයි යන්න පුළුවන්.
+
+        Guard කෙනෙක්ට සේප්පුවක් අරින්න ඕන වුනොත්, එයා manager ගෙන් අවසර අරගෙන (sudo command එක ගහලා), තමන්ගේ නමින් ඒ වැඩේ කරනවා. එතකොට log book එකේ සටහන් වෙනවා "Guard Tony තමයි සේප්පුව ඇරියේ" කියලා.
+
+මේ නිසා, direct root login disable කරන එක Linux security වල මූලිකම පියවරක්.
+3. Lab එක කරන විදිය (Step-by-Step)
+
+මේ වැඩේ app server තුනේම (stapp01, stapp02, stapp03) කරන්න ඕන. අපි එකින් එක කරමු.
+App Server 1 (stapp01)
+
+    Log වෙන්න: ඉස්සෙල්ලම stapp01 එකට log වෙන්න. 'Infrastructure Details' බැලුවම user tony.
+    code Bash
+
+IGNORE_WHEN_COPYING_START
+IGNORE_WHEN_COPYING_END
+
+    
+ssh tony@stapp01
+
+  
+
+Password එක ඉල්ලුවම, stapp01 එකේ password එක (Ir0nM@n) paste කරලා Enter ගහන්න.
+
+Config file එක Edit කරන්න: SSH වල settings තියෙන්නේ /etc/ssh/sshd_config කියන file එකේ. අපි ඒක vi editor එකෙන් open කරගමු. sudo ඕන මේ file එක edit කරන්න.
+code Bash
+IGNORE_WHEN_COPYING_START
+IGNORE_WHEN_COPYING_END
+
+    
+sudo vi /etc/ssh/sshd_config
+
+  
+
+Setting එක වෙනස් කරන්න: vi editor එකේ, keyboard එකේ arrow keys පාවිච්චි කරලා පහළට යන්න. PermitRootLogin yes කියලා line එකක් හොයාගන්න.
+
+    Cursor එක ඒ line එකට ගෙනල්ලා, keyboard එකේ i අකුර ඔබන්න ('INSERT' mode එකට යන්න).
+
+    දැන් yes කියන එක මකලා no කියලා type කරන්න. Line එක මේ වගේ වෙන්න ඕන:
+    PermitRootLogin no
+
+    දැන් Esc key එක ඔබන්න (Command mode එකට යන්න).
+
+    ඊට පස්සේ :wq කියලා type කරලා Enter ගහන්න (Save and Quit).
+
+SSH Service එක Restart කරන්න (අනිවාර්යයි!): Config file එකේ වෙනසක් කරාම, ඒක apply වෙන්න නම් අදාළ service එක restart කරන්නම ඕන.
+code Bash
+IGNORE_WHEN_COPYING_START
+IGNORE_WHEN_COPYING_END
+
+    
+sudo systemctl restart sshd
+
+  
+
+Exit වෙන්න: පළවෙනි server එකේ වැඩේ ඉවරයි. දැන් jumphost එකට ආපහු යන්න.
+code Bash
+
+    IGNORE_WHEN_COPYING_START
+    IGNORE_WHEN_COPYING_END
+
+        
+    exit
+
+      
+
+App Server 2 (stapp02) සහ App Server 3 (stapp03)
+
+දැන් ඔයා jumphost එකේ ඉන්නේ. හරියටම උඩ කරපු steps ටිකම අනිත් server දෙකටත් කරන්න.
