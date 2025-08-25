@@ -1,0 +1,34 @@
+Lab 4: Script Execution Permissions - මතක තියාගන්න ඕන දේවල්
+
+හිතන්නකෝ ඔයා chef කෙනෙක් කියලා. ඔයාට අලුත් recipe එකක් (script) හම්බවෙනවා.
+
+1. Recipe එක කියවන්න පුළුවන් වෙන එක (Read Permission - r)
+
+ඉස්සෙල්ලම ඔයාට recipe එකේ ලියලා තියෙන දේවල් (අවශ්‍ය ද්‍රව්‍ය, උපදෙස්) කියවන්න පුළුවන් වෙන්න ඕන. මේකට තමයි read (r) permission එක කියන්නේ.
+
+    read permission එක නැත්නම්, recipe එක ලියපු කොළේ ඔයාට පේනවා, ඒත් ඒකේ තියෙන අකුරු කියවන්න බෑ.
+
+2. Recipe එකේ තියෙන විදියට උයන්න පුළුවන් වෙන එක (Execute Permission - x)
+
+Recipe එක කියෙව්වට පස්සේ, ඒකේ තියෙන steps ටික follow කරලා (උදා: "ළූණු කපන්න", "වතුර උණු කරන්න") කෑම එක හදන්න පුළුවන් වෙන්න ඕන. මේකට තමයි execute (x) permission එක කියන්නේ.
+
+    execute permission එක නැත්නම්, ඔයාට recipe එක කියවන්න පුළුවන්, ඒත් ඒකේ තියෙන විදියට උයන්න (ක්‍රියාත්මක කරන්න) බෑ.
+
+මේ Lab එකේදී ඉගෙනගත්තු වැදගත්ම පාඩම:
+
+Linux වල, computer එකට (system එකට) script එකක් execute (උයන්න) කරන්න නම්, ඉස්සෙල්ලම ඒ script එක read (කියවන්න) කරන්නම ඕන. ඒ කියන්නේ computer එකට recipe එක කියවන්න බැරි නම්, ඒකේ තියෙන විදියට උයන්නත් බෑ.
+
+ඒ නිසා, script එකක් run කරන්න නම්, ඒකට read සහ execute කියන permissions දෙකම අනිවාර්යයෙන්ම තියෙන්න ඕන (r-x).
+අපි කරපු දේ:
+
+    ගැටළුව: /tmp/xfusioncorp.sh කියන script එකට read සහ write permissions විතරයි තිබ්බේ. execute permission එක තිබ්බේ නෑ. ඒ නිසා කාටවත් ඒක run කරන්න බැරි වුනා.
+
+    අපි කරපු වැරැද්ද: අපි chmod a+x කියලා execute permission එක විතරක් එකතු කළා. ඒත් script එකට read permission එක නැති නිසා, ඒක run කරන්න බැරි වුනා.
+
+    හරිම විසඳුම: හැම user කෙනෙක්ටම script එක run කරන්න දෙන්න නම්, අපි හැමෝටම read සහ execute කියන permissions දෙකම දෙන්න ඕන.
+
+        ක්‍රමය 1: sudo chmod a+rx /tmp/xfusioncorp.sh (හැමෝටම read සහ execute එකතු කරන්න).
+
+        ක්‍රමය 2: sudo chmod 755 /tmp/xfusioncorp.sh (Owner ට සම්පූර්ණ බලය, අනිත් අයට read සහ execute බලය).
+
+සාරාංශය: A script needs both read and execute permissions to be run
